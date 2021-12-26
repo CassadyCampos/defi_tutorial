@@ -1,8 +1,7 @@
-pragma solidity ^0.8.0;
+pragma solidity ^0.5.0;
 
-import "./DappToken";
-import "./DaiToken";
-
+import "./DappToken.sol";
+import "./DaiToken.sol";
 contract TokenFarm {
     string public name = "Dapp Token Farm";
     DappToken public dappToken;
