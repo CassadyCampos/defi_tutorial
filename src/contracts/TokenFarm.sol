@@ -2,6 +2,7 @@ pragma solidity ^0.5.0;
 
 import "./DappToken.sol";
 import "./DaiToken.sol";
+
 contract TokenFarm {
     string public name = "Dapp Token Farm";
     address public owner;
@@ -13,6 +14,7 @@ contract TokenFarm {
     mapping(address => uint) public stakingBalance;
     mapping(address => bool) public hasStaked;
     mapping(address => bool) public isStaking;
+
     constructor(DappToken _dappToken, DaiToken _daiToken) public {
         dappToken = _dappToken;
         daiToken = _daiToken;
@@ -29,7 +31,7 @@ contract TokenFarm {
         daiToken.transferFrom(msg.sender, address(this), _amount);
 
         // Update staking balance
-        stakingBalance[msg.sender] = stakingBalance[mstrug.sender] + _amount;
+        stakingBalance[msg.sender] = stakingBalance[msg.sender] + _amount;
 
         stakers.push(msg.sender);
 
@@ -43,6 +45,21 @@ contract TokenFarm {
         hasStaked[msg.sender] = true;
     }
     // Unstaking Tokens (Withdraw)
+    function unstakeTokens() public {
+        // Fetch staking balance
+        uint balance = stakingBalance[msg.sender];
+        
+        require(balance > 0, "amount cannot be 0");
+
+        // Transfer Mock Dai tokens to this contract for staking
+        daiToken.transfer(msg.sender, balance);
+
+        // Reset staking balance
+        stakingBalance[msg.sender] = 0;
+
+        // Update staking status
+        isStaking[msg.sender] = false;
+    }
 
     // Issuing Tokens
     function issueTokens() public {
