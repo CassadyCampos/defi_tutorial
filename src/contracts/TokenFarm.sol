@@ -33,8 +33,6 @@ contract TokenFarm {
         // Update staking balance
         stakingBalance[msg.sender] = stakingBalance[msg.sender] + _amount;
 
-        stakers.push(msg.sender);
-
         // Add user to stakers array only if they haven't staked already
         if (!hasStaked[msg.sender]) {
             stakers.push(msg.sender);
@@ -49,7 +47,7 @@ contract TokenFarm {
         // Fetch staking balance
         uint balance = stakingBalance[msg.sender];
         
-        require(balance > 0, "amount cannot be 0");
+        require(balance > 0, "staking balance cannot be 0");
 
         // Transfer Mock Dai tokens to this contract for staking
         daiToken.transfer(msg.sender, balance);
